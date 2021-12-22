@@ -88,6 +88,14 @@
               :options="status_op"
               type="text"
             />
+            <va-select
+              class="mt-1"
+              label="Select gender"
+              v-model="gender"
+              placeholder="Select gender"
+              :options="status_op2"
+              type="text"
+            />
             <button @click="AddCustomer" type="submit" class="add-btn m"> Add customer </button>
           </va-form>
         </va-modal>
@@ -168,9 +176,11 @@ export default defineComponent({
       { key: "id", sortable: true },
       { key: "username", sortable: true },
       { key: "phone", sortable: true },
+      { key: "address", sortable: true },
       { key: "id_card", sortable: true },
       { key: "email", sortable: true },
       { key: "marital_status", sortable: true },
+      { key: "gender", sortable: true },
     ];
 
     return {
@@ -178,11 +188,12 @@ export default defineComponent({
       columns,
       filter: "",
       // filtered: customers,
-      perPage: 2,
+      perPage: 7,
       currentPage: 1,
       
       showModal: false,
       status_op: ["S", "M"],
+      status_op2: ["F", "M"],
       username:"",
       email:"",
       address:"",

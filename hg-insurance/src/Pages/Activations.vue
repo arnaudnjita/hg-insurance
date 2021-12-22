@@ -112,7 +112,7 @@ export default defineComponent({
       expired: [],
       columns,
       filter: "",
-      perPage: 2,
+      perPage: 5,
       currentPage: 1,
     };
   },

@@ -10,43 +10,6 @@
 
       <va-modal
         v-model="showModal"
-        v-if="showModal == 'cit'"
-        hide-default-actions
-        overlay-opacity="0.2"
-        size="large"
-      >
-        <va-form
-          style="text-align: center"
-          tag="form"
-          @submit.prevent="handleSubmit"
-        >
-          <h1 style="margin: 20px 0">Create Insurance</h1>
-
-          <va-input
-            class="mt-2"
-            label="Insurance Type Name"
-            v-model="i_name"
-            placeholder=" Enter type name"
-            type="text"
-          />
-          <va-input
-            class="mb-4"
-            v-model="i_description"
-            type="textarea"
-            label="Type Description"
-            placeholder="Enter the description here"
-            :min-rows="2"
-            :max-rows="4"
-            autosize
-          />
-          <button @click="createInsuranceType" type="submit" class="add-btn m">
-            Create
-          </button>
-        </va-form>
-      </va-modal>
-
-      <va-modal
-        v-model="showModal"
         v-if="showModal == 'ci'"
         hide-default-actions
         overlay-opacity="0.2"
@@ -57,58 +20,94 @@
           tag="form"
           @submit.prevent="handleSubmit"
         >
-          <h1 style="margin: 20px 0">Create Type of Insurance</h1>
-          <va-input
+          <h1 style="margin: 20px 0">Create Insurance</h1>
+          <va-select
             class="mt-2"
             label="User insured"
-            v-model="i_name"
-            placeholder=" Enter user insured"
-            type="text"
+            v-model="user_insured"
+            placeholder=" Select user insured"
+            :options="users_insured_ops"
           />
           <va-input
             class="mt-2"
             label="Risk secure"
-            v-model="i_name"
+            v-model="risk_secure"
             placeholder=" Enter risk secure"
             type="text"
           />
           <va-input
             class="mt-2"
             label="Location"
-            v-model="i_name"
+            v-model="location"
             placeholder=" Enter location"
             type="text"
           />
           <va-input
             class="mt-2"
             label="Measure combat risk"
-            v-model="i_name"
+            v-model="measure_combat_risk"
             placeholder=" Enter measure combat risk"
             type="text"
           />
           <va-input
             class="mt-2"
             label="Expiry date"
-            v-model="i_name"
+            v-model="expiry_date"
             placeholder=" Enter expiry date"
             type="date"
           />
           <va-input
             class="mt-2"
             label="Amount"
-            v-model="i_name"
+            v-model="amount"
             placeholder=" Enter amount"
             type="number"
           />
           <va-select
             class="mt-1"
             label="Insurance type"
-            v-model="i_type"
+            v-model="insurance_types"
             placeholder="Select insurance type"
-            :options="insurance_op"
-            type="text"
+            :options="insurance_types_ops"
           />
           <button @click="createInsurance" type="submit" class="add-btn m">
+            Create
+          </button>
+        </va-form>
+      </va-modal>
+
+      <va-modal
+        v-model="showModal"
+        v-if="showModal == 'cit'"
+        hide-default-actions
+        overlay-opacity="0.2"
+        size="large"
+      >
+        <va-form
+          style="text-align: center"
+          tag="form"
+          @submit.prevent="handleSubmit"
+        >
+          <h1 style="margin: 20px 0">Create Insurance Type</h1>
+
+          <va-input
+            class="mt-2"
+            label="Insurance Type Name"
+            v-model="it_name"
+            placeholder=" Enter type name"
+            type="text"
+          />
+          <va-input
+            class="mb-4"
+            v-model="it_description"
+            type="textarea"
+            label="Type Description"
+            placeholder="Enter the description here"
+            :min-rows="2"
+            :max-rows="4"
+            autosize
+          />
+          <button @click="createInsuranceType" type="submit" class="add-btn m">
             Create
           </button>
         </va-form>
@@ -166,7 +165,7 @@
           :current-page="currentPage"
         >
           <template #bodyAppend>
-            <tr>
+            <tr colspan="8">
               <td colspan="8" class="table-example--pagination">
                 <va-pagination v-model="currentPage" input :pages="pages" />
               </td>
@@ -225,7 +224,6 @@ export default defineComponent({
     const columns = [
       // { key: '#', sortable: true },
       { key: "user_insured", sortable: true },
-      { key: "username", sortable: true },
       { key: "location", sortable: true },
       { key: "insurance_types", sortable: true },
       { key: "amount", sortable: true },
@@ -241,11 +239,23 @@ export default defineComponent({
       perPage: 5,
       currentPage: 1,
 
-      showModal: null,
+      // select options fields
+      insurance_types_ops: [],
+      users_insured_ops: [],
 
-      i_type: "",
-      i_name: "",
-      i_description: "",
+      //create insurance type fields
+      showModal: null,
+      it_name: "",
+      it_description: "",
+
+      //create insurance fields
+      user_insured: "",
+      risk_secure: "",
+      insurance_types: "",
+      location: "",
+      measure_combat_risk: "",
+      expiry_date: "",
+      amount: "",
     };
   },
 
@@ -268,6 +278,35 @@ export default defineComponent({
 
     this.all_activations = this.expired.concat(this.active);
     console.log(this.all_activations);
+
+    // Get all insurances
+    let i_types = await axios.get("insurances/types/", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+
+    // Get all users
+    let users_insured = await axios.get("customers/", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+
+    // Get all users insured and assign to users insured options
+    let users_insured_length = users_insured.data.results.length
+    for(let i = 0; i < users_insured_length; i++){
+        this.users_insured_ops.push(users_insured.data.results[i].email)
+    } 
+    console.log(this.users_insured_ops)
+
+    // Get all insurance types and assign to select options
+    let type_length = i_types.data.results.length
+    for(let i = 0; i < type_length; i++){
+        this.insurance_types_ops.push(i_types.data.results[i].nameType)
+    } 
+    console.log(this.insurance_types_ops)
+    
   },
 
   computed: {
@@ -279,13 +318,44 @@ export default defineComponent({
   },
 
   methods: {
-    async createInsurance() {
-      console.log(result);
-      let result = await axios.post("", {
-        name: this.i_name,
-        type: this.i_type,
-        description: this.i_description,
+    async createInsuranceType() {
+      let result = await axios.post("insurances/types/", {
+        nameType: this.it_name,
+        descriptionType: this.it_description,
+      },
+      {   
+        headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        }
       });
+
+      if(result.status==201){
+        this.showModal = null;
+      }
+      console.log(result);
+    },
+
+    async createInsurance() {
+      let result = await axios.post("insurances/", {
+        user_insured: this.user_insured,
+        risk_secure: this.risk_secure,
+        insurance_types: this.insurance_types,
+        location: this.location,
+        measure_combat_risk: this.measure_combat_risk,
+        expiry_date: this.expiry_date,
+        amount: this.amount,
+
+      },
+      {   
+        headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        }
+      })
+
+      if(result.status==201){
+        this.showModal = null;
+      }
+      console.log(result);
     },
     // allActivations() {
     //   this.all_activations = this.expired.concat(this.active);

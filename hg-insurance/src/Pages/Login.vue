@@ -38,7 +38,13 @@ export default {
 
       if (result.status == 200) {
         localStorage.setItem("token", result.data.tokens.access);
-        this.$router.push({ name: "Dashboard" });
+        localStorage.setItem("staff", result.data.is_staff);
+        if(result.data.is_staff){
+          this.$router.push({ name: "Dashboard" });
+        } else {
+          this.$router.push({ name: "MyDashboard" });
+        }
+        
       } 
       else {
         alert("Incorrect email or password");

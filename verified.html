@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+    
+  <style>
+
+    *{
+        margin: 0;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+      .half {
+        width: 100vw;
+        height: 50vh;
+        background-color: #ff7e1b;
+      }
+      .half > h1 {
+        font-size: 40px;
+        color: white;
+        text-align: center;
+        padding-top: 50px;
+      }
+      .overlay {
+          display: grid;
+        width: 350px;
+        background-color: white;
+        text-align: center;
+        padding: 50px 20px;
+        border-radius: 5px;
+        box-shadow: 3px 5px 15px #414141;
+        margin: -25vh auto 0 auto;
+        justify-content: center;
+      }
+      .form-div{
+            display: grid;
+            margin: 0 auto 0 auto;
+            padding: 10px 30px 10px 30px;
+        } 
+        .form-div > input{
+            margin: 10px 0;
+            padding: 12px;
+            border: none;
+            border: 1px solid rgba(128, 128, 128, 0.179);
+            border-radius: 5px;
+            background-color: #0000ff10;
+            width: 200px;
+        }
+        .login-btn{
+            padding: 13px 0;
+            margin: 10px 0 10px 0;
+            background-color: #ff7e1b;
+            border: none;
+            border-radius: 5px;
+            font-size: medium;
+            color: white;
+        }
+        .login-btn:hover{
+            box-shadow: 1px 2px 12px grey;
+            cursor: pointer;
+        }
+        .login-btn:active{
+            transform: scale(0.98);
+            box-shadow: 1px 2px 8px grey;
+        }
+    </style>
+    
+
+  <body>
+    <div class="main">
+      <div class="half">
+        <h1>HG INSURANCE</h1>
+      </div>
+      <div class="overlay">
+        <div class="form-div">
+            <h2 style="margin-bottom: 20px; color: grey;">Reset Password</h2>
+            <input type="password" placeholder="Enter new password">
+            <input type="password" placeholder="Confirm new password">
+            <a class="login-btn"><p>Reset password</p></a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+

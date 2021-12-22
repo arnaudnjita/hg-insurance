@@ -26,7 +26,7 @@
       }
       .overlay {
           display: grid;
-        width: 400px;
+        width: 350px;
         background-color: white;
         text-align: center;
         padding: 50px 20px;
@@ -40,16 +40,23 @@
             margin: 0 auto 0 auto;
             padding: 10px 30px 10px 30px;
         } 
-        
+        .form-div > input{
+            margin: 10px 0;
+            padding: 12px;
+            border: none;
+            border: 1px solid rgba(128, 128, 128, 0.179);
+            border-radius: 5px;
+            background-color: #0000ff10;
+            width: 200px;
+        }
         .login-btn{
             padding: 13px 0;
-            margin: 10px auto 10px auto;
+            margin: 10px 0 10px 0;
             background-color: #ff7e1b;
             border: none;
             border-radius: 5px;
             font-size: medium;
             color: white;
-            width: 200px;
         }
         .login-btn:hover{
             box-shadow: 1px 2px 12px grey;
@@ -69,9 +76,10 @@
       </div>
       <div class="overlay">
         <div class="form-div">
-            <p style="margin-bottom: 20px; color: rgb(18, 153, 18); font-size: x-large;">Your account has been verified successfully</p>
-            <p style="color: grey; margin-bottom: 20px;">Click on the button below to login</p>
-            <a class="login-btn"><p>Login</p></a>
+            <h2 style="margin-bottom: 20px; color: grey;">Reset Password</h2>
+            <input type="password" placeholder="Enter new password">
+            <input type="password" placeholder="Confirm new password">
+            <a class="login-btn"><p>Reset password</p></a>
         </div>
       </div>
     </div>

@@ -354,6 +354,7 @@ export default defineComponent({
 
       if(result.status==201){
         this.showModal = null;
+        window.location.reload();
       }
       console.log(result);
     },

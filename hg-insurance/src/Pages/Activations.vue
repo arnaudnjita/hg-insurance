@@ -99,7 +99,6 @@ export default defineComponent({
     const columns = [
       // { key: '#', sortable: true },
       { key: "user_insured", sortable: true },
-      { key: "username", sortable: true },
       { key: "location", sortable: true },
       { key: "insurance_types", sortable: true },
       { key: "amount", sortable: true },

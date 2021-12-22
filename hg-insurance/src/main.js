@@ -6,6 +6,7 @@ import { VuesticPlugin } from 'vuestic-ui' // <-
 import 'vuestic-ui/dist/vuestic-ui.css' // <-
 
 
+
 axios.defaults.baseURL = 'https://hggroups.cm/api/v1/'
 
 

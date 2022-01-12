@@ -38,7 +38,9 @@ export default {
 
       if (result.status == 200) {
         localStorage.setItem("token", result.data.tokens.access);
+        localStorage.setItem("user_id", result.data.id);
         localStorage.setItem("staff", result.data.is_staff);
+        localStorage.setItem("user_name", result.data.username);
         if(result.data.is_staff){
           this.$router.push({ name: "Dashboard" });
         } else {

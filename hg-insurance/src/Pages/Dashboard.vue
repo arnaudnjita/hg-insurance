@@ -43,7 +43,10 @@
       AppNav,   
       SideBar,
       CardStack 
-    } 
+    },
+    mounted() {
+      
+    },
   }
 
 </script>

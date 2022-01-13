@@ -7,7 +7,7 @@
       <AppNav></AppNav>
       <h1 class="h1">All Customers</h1>
       <div class="row">
-        <va-input class="flex mb-2 md4 va-input" placeholder="Filter..." v-model="filter" />
+        <va-input class="flex mb-2 md4 va-input" label="Filter" placeholder="Filter..." v-model="filter" />
 
         <va-input
           class="flex mb-2 md2 va-input"
@@ -183,7 +183,7 @@
           <va-chip>Edit</va-chip>
         </template>
       </va-data-table>
-      <p v-if="rowId">row id = {{ rowId }}</p>
+      <!-- <p v-if="rowId">row id = {{ rowId }}</p> -->
     </div>
   </div>
 </template>
@@ -199,7 +199,6 @@ export default defineComponent({
     const customers = [];
 
     const columns = [
-      { key: "id", sortable: true, label: "ID" },
       { key: "username", sortable: true, label: "Username" },
       { key: "phone", sortable: true, label: "Tel No" },
       { key: "address", sortable: true, label: "Address" },
@@ -223,6 +222,7 @@ export default defineComponent({
 
       addCustomerModal: false,
       editCustomerModal: false,
+
       status_op: ["S", "M"],
       status_op2: ["F", "M"],
       e_status_op: ["S", "M"],

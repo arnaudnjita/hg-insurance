@@ -1,20 +1,41 @@
 <template>
   <div class="login-box">
     <nav>
-      <a href="">About</a>
+      <a href>About</a>
       <button class="signin-btn">Sign in</button>
     </nav>
-    <form class="form-div" @submit.prevent="login">
+    <va-form
+      class="form-div"
+      @submit.prevent="login"
+    >
       <h2>Login</h2>
-      <input v-model="email" type="email" placeholder="Enter username" />
-      <input v-model="password" type="password" placeholder="Enter password" />
-      <router-link class="login-btn" to="" v-on:click="login"
+      <va-input 
+        v-model="email" 
+        type="email" 
+        placeholder="Enter username" 
+        :error="isError" 
+        @click='isError=false; isAlert=false' />
+      <va-input
+        v-model="password"
+        type="password"
+        placeholder="Enter password"
+        :error="isError"
+        @click='isError=false; isAlert=false'
+      />
+      <p style="font-size:small" v-show="isAlert">Incorrect email or password</p>
+      <router-link
+        class="login-btn"
+        to
+        @click="
+          login();
+          
+        "
         >Proceed</router-link
       >
       <router-link class="rl" to="/forgot-password"
         >Forgot password ?</router-link
       >
-    </form>
+    </va-form>
   </div>
 </template>
 
@@ -26,36 +47,40 @@ export default {
     return {
       email: "",
       password: "",
+      isError: false,
+      isAlert: false
     };
   },
   methods: {
     async login() {
-      let result = await axios.post("login/", {
-        email: this.email,
-        password: this.password,
-      });
-      console.log(result);
+      await axios
+        .post("login/", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          localStorage.setItem("token", response.data.tokens.access);
+          localStorage.setItem("user_id", response.data.id);
+          localStorage.setItem("staff", response.data.is_staff);
+          localStorage.setItem("user_name", response.data.username);
+          this.isError = false
 
-      if (result.status == 200) {
-        localStorage.setItem("token", result.data.tokens.access);
-        localStorage.setItem("user_id", result.data.id);
-        localStorage.setItem("staff", result.data.is_staff);
-        localStorage.setItem("user_name", result.data.username);
-        if(result.data.is_staff){
-          this.$router.push({ name: "Dashboard" });
-        } else {
-          this.$router.push({ name: "MyDashboard" });
-        }
-        
-      } 
-      else {
-        alert("Incorrect email or password");
-      }
-    }
+          if (response.data.is_staff) {
+            this.$router.push({ name: "Dashboard" });
+          } else {
+            this.$router.push({ name: "MyDashboard" });
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            this.isError = true
+            this.isAlert = true
+        }});
+    },
   },
   mounted() {
     let response = localStorage.getItem("token");
-    console.log(response);
+    // console.log(response);
     if (response) {
       this.$router.push({ name: "Dashboard" });
     }

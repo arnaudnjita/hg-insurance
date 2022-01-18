@@ -118,7 +118,7 @@ export default defineComponent({
   },
 
   async mounted() {
-    let active = await axios.get("active-activations", {
+    let active = await axios.get("active-customer-activations", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
@@ -126,7 +126,7 @@ export default defineComponent({
     console.log(active.data);
     this.active = active.data.results;
 
-    let expired = await axios.get("expired-activations", {
+    let expired = await axios.get("expired-customer-activations", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },

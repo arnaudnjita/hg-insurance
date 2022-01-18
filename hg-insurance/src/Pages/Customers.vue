@@ -7,7 +7,12 @@
       <AppNav></AppNav>
       <h1 class="h1">All Customers</h1>
       <div class="row">
-        <va-input class="flex mb-2 md4 va-input" label="Filter" placeholder="Filter..." v-model="filter" />
+        <va-input
+          class="flex mb-2 md4 va-input"
+          label="Filter"
+          placeholder="Filter..."
+          v-model="filter"
+        />
 
         <va-input
           class="flex mb-2 md2 va-input"
@@ -94,6 +99,13 @@
               type="text"
             />
             <button @click="AddCustomer" type="submit" class="add-btn m">Add customer</button>
+
+            <va-button
+              v-show="false"
+              class="mr-2 mb-2"
+              @click="$vaToast.init(addToast)"
+              id="addToast"
+            >Toast success</va-button>
           </va-form>
         </va-modal>
 
@@ -103,15 +115,9 @@
           overlay-opacity="0.2"
           min-width="800px"
           size="large"
-          @close="hey"
         >
           <va-form>
-            <va-input
-              readonly="true"
-              class="mb-4 inputs"
-              v-model="e_username"
-              label="Username"
-            />
+            <va-input readonly="true" class="mb-4 inputs" v-model="e_username" label="Username" />
             <va-input v-bind:readonly="true" class="mb-4 inputs" v-model="e_email" label="Email" />
             <va-input
               @click-append-inner="changeTel"
@@ -154,7 +160,18 @@
               label="Marital Status"
             />
 
-            <button @click="updateCustomer(rowId)" type="submit" class="p-btns">Save</button>
+            <button 
+              class="p-btns"
+              @click="updateCustomer(rowId)" 
+              type="submit" 
+            >Save</button>
+
+            <va-button
+              v-show="false"
+              class="mr-2 mb-2"
+              @click="$vaToast.init(updateToast)"
+              id="updateToast"
+            >Toast success</va-button>
           </va-form>
         </va-modal>
       </div>
@@ -165,10 +182,9 @@
         :filter="filter"
         :filter-method="customFilteringFn"
         @filtered="filteredCount = $event.items.length"
-        @row:click="rowId = $event.item.id; editCustomer(rowId)"
+        @row:dblclick="rowId = $event.item.id; editCustomer(rowId)"
         :per-page="perPage"
         :current-page="currentPage"
-        ref="datatable"
         clickable
         striped
       >
@@ -179,8 +195,27 @@
             </td>
           </tr>
         </template>
-        <template #cell(Edit)>
+
+        <!-- <template #cell(Edit)>
           <va-chip>Edit</va-chip>
+        </template> -->
+        <template #cell(address)="{ source: address }">
+          <p :key="tableRenderKey">{{ address }}</p>
+        </template>
+        <template #cell(username)="{ source: username }">
+          <p :key="tableRenderKey">{{ username }}</p>
+        </template>
+        <template #cell(email)="{ source: email }">
+          <p :key="tableRenderKey">{{ email }}</p>
+        </template>
+        <template #cell(phone)="{ source: phone }">
+          <p :key="tableRenderKey">{{ phone }}</p>
+        </template>
+        <template #cell(id_card)="{ source: id_card }">
+          <p :key="tableRenderKey">{{ id_card }}</p>
+        </template>
+        <template #cell(marital_status)="{ source: marital_status }">
+          <p :key="tableRenderKey">{{ marital_status }}</p>
         </template>
       </va-data-table>
       <!-- <p v-if="rowId">row id = {{ rowId }}</p> -->
@@ -196,7 +231,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   data() {
-    const customers = [];
+    // const customers = [];
 
     const columns = [
       { key: "username", sortable: true, label: "Username" },
@@ -208,18 +243,30 @@ export default defineComponent({
       { key: "gender", sortable: true, label: "Gender" },
       { key: "created_by" },
       { key: "updated_by" },
-      { key: "Edit" }
+      // { key: "Edit" },
+
     ];
 
     return {
-      customers: customers,
+      customers: [],
       columns,
       filter: "",
-      // filtered: customers,
       perPage: 5,
       currentPage: 1,
       rowId: "",
-
+      tableRenderKey: 0,
+      updateToast: {
+        message: 'Updated successfully',
+        color: 'primary',
+        position: 'bottom-right',
+        duration: 5000
+      },
+      addToast: {
+        message: 'Customer added successfully',
+        color: 'primary',
+        position: 'bottom-right',
+        duration: 5000
+      },
       addCustomerModal: false,
       editCustomerModal: false,
 
@@ -261,15 +308,13 @@ export default defineComponent({
   methods: {
     async editCustomer(id) {
       this.editCustomerModal = !this.editCustomerModal
-      // let rowId = this.rowId
 
       let result = await axios.get(`customer/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-
-      console.log(result.data)
+      // console.log(result.data)
 
       this.e_username = result.data.username
       this.e_email = result.data.email
@@ -280,7 +325,7 @@ export default defineComponent({
 
     },
     async updateCustomer(id) {
-      let result = await axios.patch(`customer/${id}/`,
+      await axios.patch(`customer/${id}/`,
         {
           username: this.e_username,
           email: this.e_email,
@@ -293,17 +338,28 @@ export default defineComponent({
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-        });
-
-        if (result.status == 200) {
-        window.location.reload();
-      }
-      console.log(result.data)
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            var elem = document.getElementById('updateToast')
+            elem.click()
+            this.editCustomerModal = !this.editCustomerModal;
+          }
+          this.loadCustomers()
+        })
+        .catch((error) => {
+          if (error.response) {
+            var elem = document.getElementById('updateToast')
+            elem.click()
+            this.updateToast.message = "Update unsuccessful"
+            this.updateToast.color = "danger"
+          }
+        }
+        )
 
     },
     async AddCustomer() {
-      console.log(result)
-      let result = await axios.post("register/", {
+      await axios.post("register/", {
         username: this.username,
         email: this.email,
         phone: this.phone,
@@ -317,13 +373,24 @@ export default defineComponent({
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           }
-        });
-
-      if (result.status == 201) {
-        this.showModal = !this.showModal;
-        window.location.reload();
-      }
-      console.log(result)
+        })
+      .then((response) => {
+          if (response.status == 201) {
+            var elem = document.getElementById('addToast')
+            elem.click()
+            this.addCustomerModal = !this.addCustomerModal;
+          }
+          this.loadCustomers() 
+        })
+        .catch((error) => {
+          if (error.response) {
+            var elem = document.getElementById('addToast')
+            elem.click()
+            this.addToast.message = "Edit customer unsuccessful"
+            this.addToast.color = "danger"
+          }
+        }
+        )
     },
 
     filterExact(source) {
@@ -354,17 +421,27 @@ export default defineComponent({
         this.readAddress = false;
       } else this.readAddress = true;
     },
+    async loadCustomers() {
+      let result = await axios.get("customers", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      // console.log(result.data);
+      this.customers = result.data.results;
+      // console.log(this.customers.length)
+    }
   },
 
-  async mounted() {
-    let result = await axios.get("customers", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    console.log(result.data);
-    this.customers = result.data.results;
-    // console.log(this.customers.length)
+  mounted() {
+    this.loadCustomers()
+  },
+  watch: {
+    customers: function (val) {
+      if (val) {
+        window.location.reload
+      }
+    }
   },
   components: {
     AppNav,

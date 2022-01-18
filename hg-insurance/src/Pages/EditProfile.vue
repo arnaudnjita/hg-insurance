@@ -5,9 +5,7 @@
     </div>
     <div class="box-2">
       <AppNav></AppNav>
-      <div
-        class="top-box"
-      >
+      <div class="top-box">
         <div
           @click="switchPInfo()"
           class="pInfo"
@@ -24,9 +22,10 @@
           <va-input
             @click-append-inner="changefName"
             v-bind:readonly="readfName"
-            class="mb-4 h"
-            v-model="fname"
+            class="mb-4 inputs"
+            v-model="fName"
             label="First Name"
+            :key="pInfoRenderKey"
           >
             <template #appendInner>
               <va-icon color="primary" name="edit" />
@@ -35,9 +34,10 @@
           <va-input
             @click-append-inner="changelName"
             v-bind:readonly="readlName"
-            class="mb-4 h"
-            v-model="lname"
+            class="mb-4 inputs"
+            v-model="lName"
             label="Last Name"
+            :key="pInfoRenderKey"
           >
             <template #appendInner>
               <va-icon color="primary" name="edit" />
@@ -61,24 +61,22 @@
             class="mb-4 inputs"
             v-model="address"
             label="Address"
+            :key="pInfoRenderKey"
           >
             <template #appendInner>
               <va-icon color="primary" name="edit" />
             </template>
           </va-input>
-          <va-input
-            @click-append-inner="changeStatus"
-            v-bind:readonly="readStatus"
-            class="mb-4 h"
-            v-model="mStatus"
-            label="Marital Status"
-          >
-            <template #appendInner>
-              <va-icon color="primary" name="edit" />
-            </template>
-          </va-input>
+          <va-select class="mb-4 h" v-model="mStatus" :options="mstatus_op" label="Marital Status" />
         </div>
-        <button @click="updateStaffInfo(user_id)" type="submit" v-show="pInfo" class="p-btns">Save</button>
+        <va-button @click="updateStaffInfo(user_id);" type="submit" :rounded="false" v-show="pInfo" class="p-btns">Save</va-button>
+
+        <va-button
+          v-show="false"
+          class="mr-2 mb-2"
+          @click="$vaToast.init(toastData)"
+          id="infoToast"
+        >Toast success</va-button>
 
         <div class="edit-box" style="grid-template-columns:auto;" v-show="uPass">
           <va-input
@@ -94,17 +92,65 @@
             label="New Password"
             type="password"
             placeholder="Enter new password"
+            :rules="[(value) => {
+              if (value == staffOldPass) {
+                errCompare1 = true
+                isError1 = true
+                isDisabled = true
+              }
+              else {
+                errCompare1 = false
+                isError1 = false
+                isDisabled = false
+              }
+            }]"
+            :error="isError1"
           />
+
+          <div v-if="errCompare1" style="text-align:left; margin-top:-18px; color:red; font-size:12px">
+            <p>*Old password same as new password</p>
+          </div>
+
           <va-input
             class="mb-4 h"
             v-model="staffConfirmPass"
             label="Confirm Password"
             placeholder="Confirm new password"
             type="password"
-            :rules="[value => value === staffNewPass || 'Passwords do not match']"
+            :rules="[(value) => {
+              if (value !== staffNewPass) {
+                errCompare2 = true
+                isError2 = true
+                isDisabled = true
+              }
+              else {
+                errCompare2 = false
+                isError2 = false
+                isDisabled = false
+              }
+            }]"
+            :error="isError2"
           />
+
+          <div v-if="errCompare2" style="text-align:left; margin-top:-18px; color:red; font-size:12px">
+            <p>*Passwords do not match</p>
+          </div>
         </div>
-        <button @click="updateStaffPassword(user_id)" type="submit" v-show="uPass" class="p-btns">Save</button>
+
+        <va-button
+          @click="updateStaffPassword(user_id)"
+          type="submit"
+          v-show="uPass"
+          class="p-btns"
+          :rounded="false"
+          :disabled="isDisabled"
+        >Save</va-button>
+        <va-button
+          v-show="false"
+          class="mr-2 mb-2"
+          @click="$vaToast.init(toastData)"
+          id="passToast"
+        >Toast success</va-button>
       </div>
     </div>
   </div>
@@ -124,6 +170,21 @@ export default {
       mStatus: "",
       lName: "",
       fName: "",
+      mstatus_op: ["S", "M"],
+
+      errCompare1: false,
+      errCompare2: false,
+      isError1: false,
+      isError2: false,
+      isDisabled: false,
+
+      pInfoRenderKey: 0,
+      toastData: {
+        message: 'Updated successfully',
+        color: 'primary',
+        position: 'bottom-right',
+        duration: 5000
+      },
 
       staffOldPass: "",
       staffNewPass: "",
@@ -197,28 +258,42 @@ export default {
       } else this.readlName = true;
     },
     async updateStaffInfo(id) {
-      let result = await axios.patch(
+      await axios.patch(
         `staff/${id}/`,
         {
+          first_name: this.fName,
+          last_name: this.lName,
           username: this.username,
           id_card: this.id_card,
           marital_status: this.mStatus,
           phone: this.tel,
           address: this.address,
+
         },
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
-      );
-
-      if (result.status == 200) {
-        window.location.reload();
-      }
+      )
+        .then((response) => {
+          if (response.status == 200) {
+            var elem = document.getElementById('infoToast')
+            elem.click()
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            this.toastData.message = "Edit personal info unsuccessful"
+            this.toastData.color = "danger"
+            var elem = document.getElementById('infoToast')
+            elem.click()
+          }
+        }
+        )
     },
     async updateStaffPassword(id) {
-      let result = await axios.put(
+      await axios.put(
         `change_password/${id}/`,
         {
           old_password: this.staffOldPass,
@@ -230,24 +305,37 @@ export default {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
-      );
-
-      if (result.status == 200) {
-        alert("password updated successfully")
-      }
+      )
+        .then((response) => {
+          if (response.status == 200) {
+            var elem = document.getElementById('passToast')
+            elem.click()
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response)
+            this.toastData.message = "Password update unsuccessful"
+            this.toastData.color = "danger"
+            var elem = document.getElementById('passToast')
+            elem.click()
+          }
+        }
+        )
     }
   },
   async mounted() {
     let user_id = localStorage.getItem("user_id");
     this.user_id = user_id;
-    console.log(this.user_id);
+    // console.log(this.user_id);
 
     let result = await axios.get(`staff/${this.user_id}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
+    this.fName = result.data.first_name
+    this.lName = result.data.last_name
     this.username = result.data.username
     this.tel = result.data.phone
     this.address = result.data.address
@@ -259,8 +347,9 @@ export default {
 </script>
 
 <style>
-.top-box{
-  display:flex; text-align: center;
+.top-box {
+  display: flex;
+  text-align: center;
   border-radius: 5px 5px 0 0;
   box-shadow: 2px 3px 10px #8e8e8e;
   margin: 30px auto 0 auto;

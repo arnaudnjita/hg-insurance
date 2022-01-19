@@ -5,9 +5,9 @@
     </div>
     <div class="box-2">
       <AppNav></AppNav>
-      <div class="cards-div"> 
+      <!-- <div class="cards-div">  -->
         <CardStack></CardStack>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>

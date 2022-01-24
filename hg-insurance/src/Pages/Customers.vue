@@ -5,6 +5,7 @@
     </div>
     <div class="box-2">
       <AppNav></AppNav>
+      <div class="box3">
       <h1 class="h1">All Customers</h1>
       <div class="row">
         <va-input
@@ -31,6 +32,7 @@
         />
 
         <button class="add-btn" @click="addCustomerModal = !addCustomerModal">Add customer</button>
+        </div>
 
         <va-modal
           v-model="addCustomerModal"
@@ -174,9 +176,9 @@
             >Toast success</va-button>
           </va-form>
         </va-modal>
-      </div>
+      <div class="box4">
       <va-data-table
-        class="dt"
+        id="dt"
         :items="customers"
         :columns="columns"
         :filter="filter"
@@ -218,7 +220,8 @@
           <p :key="tableRenderKey">{{ marital_status }}</p>
         </template>
       </va-data-table>
-      <!-- <p v-if="rowId">row id = {{ rowId }}</p> -->
+      </div>
+      </div>
     </div>
   </div>
 </template>
@@ -251,9 +254,8 @@ export default defineComponent({
       customers: [],
       columns,
       filter: "",
-      perPage: 5,
+      perPage: 6,
       currentPage: 1,
-      rowId: "",
       tableRenderKey: 0,
       updateToast: {
         message: 'Updated successfully',
@@ -273,6 +275,7 @@ export default defineComponent({
       status_op: ["S", "M"],
       status_op2: ["F", "M"],
       e_status_op: ["S", "M"],
+      
       username: "",
       email: "",
       address: "",
@@ -307,6 +310,7 @@ export default defineComponent({
 
   methods: {
     async editCustomer(id) {
+      // console.log(items)
       this.editCustomerModal = !this.editCustomerModal
 
       let result = await axios.get(`customer/${id}`, {
@@ -327,8 +331,6 @@ export default defineComponent({
     async updateCustomer(id) {
       await axios.patch(`customer/${id}/`,
         {
-          username: this.e_username,
-          email: this.e_email,
           phone: this.e_tel,
           id_card: this.e_idcard,
           address: this.e_address,
@@ -343,9 +345,9 @@ export default defineComponent({
           if (response.status == 200) {
             var elem = document.getElementById('updateToast')
             elem.click()
+            this.loadCustomers()
             this.editCustomerModal = !this.editCustomerModal;
           }
-          this.loadCustomers()
         })
         .catch((error) => {
           if (error.response) {
@@ -401,11 +403,7 @@ export default defineComponent({
       return source?.toString?.() === this.filter;
     },
 
-    // changeUsername() {
-    //   if (this.readUsername == true) {
-    //     this.readUsername = false;
-    //   } else this.readUsername = true;
-    // },
+    // functions to make fields editable
     changeTel() {
       if (this.readTel == true) {
         this.readTel = false;
@@ -421,6 +419,8 @@ export default defineComponent({
         this.readAddress = false;
       } else this.readAddress = true;
     },
+
+    // function to get all customers
     async loadCustomers() {
       let result = await axios.get("customers", {
         headers: {
@@ -429,19 +429,11 @@ export default defineComponent({
       });
       // console.log(result.data);
       this.customers = result.data.results;
-      // console.log(this.customers.length)
     }
   },
 
   mounted() {
     this.loadCustomers()
-  },
-  watch: {
-    customers: function (val) {
-      if (val) {
-        window.location.reload
-      }
-    }
   },
   components: {
     AppNav,
@@ -450,8 +442,24 @@ export default defineComponent({
 });
 </script>
 
-<style>
-.dt,
+<style scoped>
+.box3 {
+  background-color: white;
+  margin: 0px 15px 0px 15px;
+  height: 71vh;
+  border-radius: 5px;
+  box-shadow: 2px 2px 12px #8e8e8e;
+  padding: 30px 10px;
+  width: 100%;
+  overflow-y: hidden;
+}
+.box4 {
+  overflow-y: auto; 
+  height:47vh; 
+  margin-bottom:10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
 .row {
   margin-left: 20px;
 }

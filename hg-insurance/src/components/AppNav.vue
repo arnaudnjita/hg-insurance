@@ -31,7 +31,7 @@ nav {
     height: 80px;
     background-color: white;
     align-content: center;
-    margin: 10px 15px 50px 15px;
+    margin: 10px 15px 40px 15px;
     padding: auto 50px;
     border-radius: 5px;
     box-shadow: 2px 3px 10px #8e8e8e;

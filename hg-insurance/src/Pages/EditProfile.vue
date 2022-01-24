@@ -333,7 +333,7 @@ export default {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-    });
+    })
     this.fName = result.data.first_name
     this.lName = result.data.last_name
     this.username = result.data.username
@@ -396,7 +396,6 @@ export default {
   margin: 0px 10px 10px 10px;
   border: none;
   border-radius: 5px;
-  color: white;
   background-color: #4285f4;
   width: 200px;
 }

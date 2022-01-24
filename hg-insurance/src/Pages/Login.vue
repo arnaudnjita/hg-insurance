@@ -64,6 +64,7 @@ export default {
           localStorage.setItem("staff", response.data.is_staff);
           localStorage.setItem("user_name", response.data.username);
           this.isError = false
+          
 
           if (response.data.is_staff) {
             this.$router.push({ name: "Dashboard" });
@@ -79,11 +80,7 @@ export default {
     },
   },
   mounted() {
-    let response = localStorage.getItem("token");
-    // console.log(response);
-    if (response) {
-      this.$router.push({ name: "Dashboard" });
-    }
+    
   },
 };
 </script>

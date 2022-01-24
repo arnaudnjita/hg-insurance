@@ -4,6 +4,7 @@ import router from './router'
 import axios from 'axios'
 import { VuesticPlugin } from 'vuestic-ui' // <-
 import 'vuestic-ui/dist/vuestic-ui.css' // <-
+import 'nprogress/nprogress.css'
 
 axios.defaults.baseURL = 'https://hggroups.cm/api/v1/'
 

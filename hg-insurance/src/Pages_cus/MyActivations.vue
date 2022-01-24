@@ -5,11 +5,11 @@
     </div>
     <div class="box-2">
       <AppNav></AppNav>
+      <div class="box3">
       <h1 class="h1">All Activations</h1>
-
       <div class="row">
         <va-input
-          class="flex mb-2 md3 va-input"
+          class="flex mb-2 md2 va-input"
           placeholder="Filter..."
           v-model="filter"
         />
@@ -38,6 +38,7 @@
           Expired activations
         </button>
       </div>
+      <div class="box4">
       <va-data-table
         class="dt"
         :items="all_activations"
@@ -56,37 +57,11 @@
           </tr>
         </template>
       </va-data-table>
+      </div>
+      </div>
     </div>
   </div>
 </template>
-
-<style>
-.f-btns {
-  padding: 15px 12px;
-  margin: 10px 10px 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  background-color: #ff7e1b;
-}
-.act{
-  background-color: #4285f5;
-}
-.exp{
-  background-color: #2abbac;
-}
-.dt,
-.row {
-  margin-left: 20px;
-}
-
-.h1 {
-  margin: 0 0 10px 20px;
-}
-.va-input {
-  margin: 10px 20px 10px 0;
-}
-</style>
 
 <script>
 import AppNav from "../components/AppNav.vue";
@@ -174,3 +149,48 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.box3 {
+  background-color: white;
+  margin: 0px 15px 0px 15px;
+  height: 71vh;
+  border-radius: 5px;
+  box-shadow: 2px 2px 12px #8e8e8e;
+  padding: 30px 10px;
+  width: 100%;
+  overflow-y: hidden;
+}
+.box4 {
+  overflow-y: auto; 
+  height:47vh; 
+  margin-bottom:10px;
+  margin-left:20px;
+  margin-right: 10px;
+}
+.f-btns {
+  padding: 15px 12px;
+  margin: 10px 10px 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #ff7e1b;
+}
+.act{
+  background-color: #4285f5;
+}
+.exp{
+  background-color: #2abbac;
+}
+.dt,
+.row {
+  margin-left: 20px;
+}
+
+.h1 {
+  margin: 0 0 10px 20px;
+}
+.va-input {
+  margin: 10px 20px 10px 0;
+}
+</style>

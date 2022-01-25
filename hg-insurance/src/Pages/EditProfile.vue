@@ -69,7 +69,7 @@
           </va-input>
           <va-select class="mb-4 h" v-model="mStatus" :options="mstatus_op" label="Marital Status" />
         </div>
-        <va-button @click="updateStaffInfo(user_id);" type="submit" :rounded="false" v-show="pInfo" class="p-btns">Save</va-button>
+        <va-button gradient @click="updateStaffInfo(user_id)" type="submit" :rounded="false" v-show="pInfo" class="p-btns">Save</va-button>
 
         <va-button
           v-show="false"
@@ -346,7 +346,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .top-box {
   display: flex;
   text-align: center;
@@ -358,14 +358,17 @@ export default {
 .pInfo {
   width: 50%;
   color: white;
-  padding: 15px;
+  padding: 20px;
   border-radius: 5px 0 0 0;
   cursor: pointer;
+}
+.pInfo:hover,.uPass:hover {
+  box-shadow: 1px 1px 1px grey;
 }
 .uPass {
   width: 50%;
   color: white;
-  padding: 15px;
+  padding: 20px;
   border-radius: 0 5px 0 0;
   cursor: pointer;
 }
@@ -381,18 +384,13 @@ export default {
 .edit-box {
   display: grid;
   grid-template-columns: auto auto;
-  /* width: 100%; */
   padding: 10px 0 10px 20px;
   justify-content: center;
-}
-.h1 {
-  text-align: center;
-  display: inline;
 }
 .p-btns {
   font-size: medium;
   color: white;
-  padding: 10px;
+  padding: 12px;
   margin: 0px 10px 10px 10px;
   border: none;
   border-radius: 5px;

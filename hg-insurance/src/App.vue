@@ -22,6 +22,7 @@
 .box-1 {
   height: 95vh;
   background-color: #ff7e1b;
+  background: linear-gradient(240deg, rgba(255,126,27,1) 23%, rgba(255,161,27,1) 52%, rgba(255,126,27,1) 79%); 
   margin: 10px;
   border-radius: 5px;
   width: 100%;

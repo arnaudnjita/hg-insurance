@@ -6,9 +6,9 @@
         </nav>
         <div class="form-div">
             <h2>Forgot Password</h2>
-            <input type="email" placeholder="Enter email address">
-            <button class="login-btn">Reset password</button>
-            <router-link class="rl" to="./login">Click here to login</router-link>
+            <va-input class="input" type="email" placeholder="Enter email address"/>
+            <va-button gradient :color='"#ff7e1b"' :rounded="false" class="reset-btn">Reset</va-button>
+            <router-link class="rl" to="/">Click here to login</router-link>
         </div>
     </div>
     
@@ -55,16 +55,16 @@ export default {
         border-radius: 5px;
         background-color: white;
     } 
-    .form-div > input{
+    .form-div > .input{
         margin: 10px 0;
-        padding: 12px;
+        /* padding: 3px 0; */
         border: none;
         border: 1px solid rgba(128, 128, 128, 0.179);
         border-radius: 5px;
         background-color: #0000ff10;
     }
-    .login-btn{
-        padding: 13px 0;
+    .reset-btn{
+        padding: 12px 15px;
         margin: 10px 0 20px 0;
         background-color: #ff7e1b;
         border: none;

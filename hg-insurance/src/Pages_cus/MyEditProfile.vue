@@ -69,7 +69,7 @@
           </va-input>
           <va-select class="mb-4 h" v-model="mStatus" :options="mstatus_op" label="Marital Status" />
         </div>
-        <va-button @click="updateCusInfo(user_id);" type="submit" :rounded="false" v-show="pInfo" class="p-btns">Save</va-button>
+        <va-button @click="updateCusInfo(user_id);" type="submit" gradient :rounded="false" v-show="pInfo" class="p-btns">Save</va-button>
 
         <va-button
           v-show="false"
@@ -348,3 +348,65 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.top-box {
+  display: flex;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 2px 3px 10px #8e8e8e;
+  margin: 30px auto 0 auto;
+  width: 65%;
+}
+.pInfo {
+  width: 50%;
+  color: white;
+  padding: 20px;
+  border-radius: 5px 0 0 0;
+  cursor: pointer;
+}
+.pInfo:hover,.uPass:hover {
+  box-shadow: 1px 1px 1px grey;
+}
+.uPass {
+  width: 50%;
+  color: white;
+  padding: 20px;
+  border-radius: 0 5px 0 0;
+  cursor: pointer;
+}
+.main-box {
+  text-align: center;
+  padding: 30px 50px;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 2px 3px 10px #8e8e8e;
+  background-color: white;
+  margin: 0 auto 50px auto;
+  width: 65%;
+}
+.edit-box {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 10px 0 10px 20px;
+  justify-content: center;
+}
+.p-btns {
+  font-size: medium;
+  color: white;
+  padding: 12px;
+  margin: 0px 10px 10px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4285f4;
+  width: 200px;
+}
+.p-btns:hover {
+  box-shadow: 1px 2px 12px grey;
+}
+.p-btns:active {
+  transform: scale(0.98);
+  box-shadow: 1px 2px 8px grey;
+}
+</style>
+
+

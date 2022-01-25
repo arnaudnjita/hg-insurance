@@ -21,17 +21,56 @@ const routes = [
         path: "/my-dashboard",
         meta: {
             requiresAuth: true,
+            isStaff: false,
+        },
+        beforeEnter: () => {
+            if(localStorage.getItem('staff')=='true' && localStorage.getItem('token')){
+                return '/dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
         }
-    },
-    {
-        name: "MyActivations",
-        component: MyActivations,
-        path: "/my-activations",
     },
     {
         name: "MyEditProfile",
         component: MyEditProfile,
         path: "/my-edit-profile",
+        meta: {
+            requiresAuth: true,
+            isStaff: false,
+        },
+        beforeEnter: () => {
+            if(localStorage.getItem('staff')=='true' && localStorage.getItem('token')){
+                return '/dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+        }
+    },
+    {
+        name: "Login",
+        component: Login,
+        path: "/",
+        meta: {
+            requiresAuth: false,
+        },
+        beforeEnter: () => {
+            if(localStorage.getItem('token')==null){
+                return true
+            }
+            else if(localStorage.getItem('token') && localStorage.getItem('staff')=='false'){
+                return '/my-dashboard'
+            }
+            else {
+                return '/dashboard'
+            }
+            }
     },
     {
         name: "Dashboard",
@@ -39,34 +78,96 @@ const routes = [
         path: "/dashboard",
         meta: {
             requiresAuth: true,
-        }
+            isStaff: true,
+        },
+        beforeEnter: () => {
+            if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return '/my-dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'true' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+            }
+    },
+    {
+        name: "MyActivations",
+        component: MyActivations,
+        path: "/my-activations",
+        meta: {
+            requiresAuth: true,
+            isStaff: false,
+        },
+        beforeEnter: () => {
+            if(localStorage.getItem('staff')=='true' && localStorage.getItem('token')){
+                return '/dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+            }
     },
     {
         name: "Customers",
         component: Customers,
         path: "/customers",
+        beforeEnter: () => {
+            if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return '/my-dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'true' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+        }
     },
     {
         name: "EditProfile",
         component: EditProfile,
         path: "/edit-profile",
+        beforeEnter: () => {
+            if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return '/my-dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'true' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+        }
     },
     {
         name: "Insurance",
         component: Insurance,
         path: "/insurance",
+        beforeEnter: () => {
+            if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return '/my-dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'true' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
+        } 
     },
     {
         name: "Activations",
         component: Activations,
         path: "/activations",
-    },
-    {
-        name: "Login",
-        component: Login,
-        path: "/",
-        meta: {
-            requiresAuth: true,
+        beforeEnter: () => {
+            if(localStorage.getItem('staff') == 'false' && localStorage.getItem('token') ){
+                return '/my-dashboard'
+            }
+            else if(localStorage.getItem('staff') == 'true' && localStorage.getItem('token') ){
+                return true
+            }
+            else
+                return '/'
         }
     },
     {
@@ -101,14 +202,57 @@ const router = createRouter({
 // router.beforeEach((to, from, next) => {
 //     if (to.matched.some(record => record.meta.requiresAuth)) {
 //       if (localStorage.getItem('token') == null) {
-//         next({
-//           path: '/',
-//           params: { nextUrl: to.fullPath }
-//         })
+//         next('/')
+//       } 
+//       else {
+//         if (to.matched.some(record => record.meta.isStaff)) {
+//           if (localStorage.getItem(staff) == true) {
+//             next(false)
+//           } else {
+//             next({ name: 'userboard' })
+//           }
+//         } else {
+//           next()
+//         }
 //       }
+//     } else if (to.matched.some(record => record.meta.guest)) {
+//       if (localStorage.getItem('jwt') == null) {
+//         next()
+//       } else {
+//         next({ name: 'userboard' })
+//       }
+//     } else {
+//       next()
 //     }
-//     else next()
 //   })
+
+// router.beforeEach((to, from, next) => {
+//     console.log(from.meta.requiresAuth)
+//     console.log(to.meta.requiresAuth)
+//     if (to.meta.requiresAuth && localStorage.getItem('token') == null){
+//             next('/')
+            
+//         }
+//     else if(!to.meta.requiresAuth && localStorage.getItem('token')) {
+//                 next('/dashboard')
+//             }
+    // else if(!to.meta.requiresAuth && localStorage.getItem('token') && to.name == 'MyActivations') {
+    //     next('/dashboard')
+    // }
+    // else if(!to.meta.requiresAuth && localStorage.getItem('token') && to.name == 'Login') {
+    //     next('/dashboard')
+    // }
+    // else if(to.meta.requiresAuth && to.meta.isCus && localStorage.getItem('token')){
+    //     next('/dashboard')
+    // }
+    // else if(to.meta.requiresAuth && to.meta.isStaff && localStorage.getItem('token')){
+    //     next('/my-dashboard')
+    // }
+//     else {
+//             next() // make sure to always call next()!
+//         }
+// })
+
   
 
 

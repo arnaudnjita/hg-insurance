@@ -2,7 +2,7 @@
   <div class="login-box">
     <nav>
       <a href>About</a>
-      <button class="signin-btn">Sign in</button>
+      <va-button gradient :rounded="false" :color='"#ff7e1b"' class="signin-button" >Sign in</va-button>
     </nav>
     <va-form
       class="form-div"
@@ -10,12 +10,14 @@
     >
       <h2>Login</h2>
       <va-input 
+        class="input"
         v-model="email" 
         type="email" 
         placeholder="Enter username" 
         :error="isError" 
         @click='isError=false; isAlert=false' />
       <va-input
+        class="input"
         v-model="password"
         type="password"
         placeholder="Enter password"
@@ -23,14 +25,13 @@
         @click='isError=false; isAlert=false'
       />
       <p style="font-size:small" v-show="isAlert">Incorrect email or password</p>
-      <router-link
+      <va-button
         class="login-btn"
-        to
-        @click="
-          login();
-          
-        "
-        >Proceed</router-link
+        gradient
+        :color='"#ff7e1b"'
+        @click="login()"
+        :rounded = 'false'
+        >Proceed</va-button
       >
       <router-link class="rl" to="/forgot-password"
         >Forgot password ?</router-link
@@ -66,7 +67,7 @@ export default {
           this.isError = false
           
 
-          if (response.data.is_staff) {
+          if (response.data.is_staff == true) {
             this.$router.push({ name: "Dashboard" });
           } else {
             this.$router.push({ name: "MyDashboard" });
@@ -107,10 +108,16 @@ nav > a {
   color: blue;
   margin-right: 10px;
 }
+
+.signin-button {
+    padding: 12px 15px;
+    font-size: medium;
+    margin-left: 20px;
+    color: white;
+}
 .login-box {
   text-align: center;
   height: 100vh;
-  /* background-color: #ffe3ae85; */
 }
 .form-div {
   display: grid;
@@ -121,30 +128,18 @@ nav > a {
   border-radius: 5px;
   background-color: white;
 }
-.form-div > input {
+.form-div > .input {
   margin: 10px 0;
-  padding: 12px;
+  /* padding: 3px 0; */
   border: none;
   border: 1px solid rgba(128, 128, 128, 0.179);
   border-radius: 5px;
   background-color: #0000ff10;
 }
 .login-btn {
-  padding: 13px 0;
-  margin: 10px 0 20px 0;
-  text-decoration: none;
   background-color: #ff7e1b;
-  border: none;
-  border-radius: 5px;
-  font-size: medium;
-  color: white;
-}
-.login-btn:hover {
-  box-shadow: 1px 2px 12px grey;
-}
-.login-btn:active {
-  transform: scale(0.98);
-  box-shadow: 1px 2px 8px grey;
+  margin: 10px 0 20px 0;
+  padding: 12px 15px;
 }
 .signin-btn {
   padding: 10px 20px;

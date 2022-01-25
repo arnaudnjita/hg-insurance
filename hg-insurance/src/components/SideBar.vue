@@ -23,10 +23,11 @@
 }
 .sidebar {
   display: grid;
-  width: 100%;
-  background-color: #ff7e1b;
+  width: 100%;         
+  height: 95vh;
   border-radius: 5px;
   padding: 50px 0;
+  border-radius: 5px;
 }
 .links {
   padding: 20px 0;

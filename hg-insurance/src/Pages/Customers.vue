@@ -31,7 +31,7 @@
           v-model.number="currentPage"
         />
 
-        <button class="add-btn" @click="addCustomerModal = !addCustomerModal">Add customer</button>
+        <va-button gradient :rounded="false" class="add-btn" @click="addCustomerModal = !addCustomerModal">Add customer</va-button>
         </div>
 
         <va-modal
@@ -100,7 +100,7 @@
               :options="status_op2"
               type="text"
             />
-            <button @click="AddCustomer" type="submit" class="add-btn m">Add customer</button>
+            <va-button gradient :rounded="false" @click="AddCustomer" type="submit" class="add-btn m">Add customer</va-button>
 
             <va-button
               v-show="false"
@@ -118,7 +118,13 @@
           min-width="800px"
           size="large"
         >
-          <va-form>
+          <va-form
+            style="text-align: center"
+            tag="form"
+            @submit.prevent="handleSubmit">
+
+            <h1 style="margin: 20px 0">Edit Customer</h1>
+
             <va-input readonly="true" class="mb-4 inputs" v-model="e_username" label="Username" />
             <va-input v-bind:readonly="true" class="mb-4 inputs" v-model="e_email" label="Email" />
             <va-input
@@ -162,11 +168,11 @@
               label="Marital Status"
             />
 
-            <button 
+            <va-button gradient :rounded="false" 
               class="p-btns"
               @click="updateCustomer(rowId)" 
               type="submit" 
-            >Save</button>
+            >Save</va-button>
 
             <va-button
               v-show="false"
@@ -475,7 +481,7 @@ export default defineComponent({
 .add-btn {
   font-size: medium;
   color: white;
-  padding: 10px;
+  padding: 12px 12px;
   margin: 10px 10px 10px 20px;
   border: none;
   border-radius: 5px;
@@ -483,11 +489,11 @@ export default defineComponent({
   background-color: #4285f4;
 }
 .add-btn:hover {
-  box-shadow: 1px 2px 12px grey;
+  box-shadow: 2px 2px 5px grey;
 }
 .add-btn:active {
   transform: scale(0.98);
-  box-shadow: 1px 2px 8px grey;
+  box-shadow: 2px 2px 5px grey;
 }
 .m {
   width: 220px;

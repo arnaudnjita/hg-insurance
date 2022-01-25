@@ -30,13 +30,13 @@
           v-model.number="currentPage"
         />
 
-        <button class="f-btns all" @click="allActivations">All activations</button>
-        <button class="f-btns act" @click="activeActivations">
+        <va-button gradient :rounded="false" :color='"#4285f5"' class="f-btns all" @click="allActivations">All activations</va-button>
+        <va-button gradient :rounded="false" :color='"#ff7e1b"' class="f-btns act" @click="activeActivations">
           Active activations
-        </button>
-        <button class="f-btns exp" @click="expiredActivations">
+        </va-button>
+        <va-button gradient :rounded="false" :color='"#15b0a0"' class="f-btns exp" @click="expiredActivations">
           Expired activations
-        </button>
+        </va-button>
       </div>
       <div class="box4">
       <va-data-table
@@ -48,6 +48,7 @@
         @filtered="filteredCount = $event.items.length"
         :per-page="perPage"
         :current-page="currentPage"
+        striped
       >
         <template #bodyAppend>
           <tr>
@@ -150,7 +151,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .box3 {
   background-color: white;
   margin: 0px 15px 0px 15px;
@@ -166,23 +167,35 @@ export default defineComponent({
   height:47vh; 
   margin-bottom:10px;
   margin-left:20px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 .f-btns {
-  padding: 15px 12px;
+  padding: 12px 0px;
   margin: 10px 10px 10px 20px;
-  border: none;
   border-radius: 5px;
   color: white;
-  background-color: #ff7e1b;
 }
-.act{
-  background-color: #4285f5;
+.all:hover {
+  box-shadow: 2px 2px 5px grey;
 }
-.exp{
-  background-color: #2abbac;
+.act:hover {
+  box-shadow: 2px 2px 5px grey;
 }
-.dt,
+.exp:hover {
+  box-shadow: 2px 2px 5px grey;
+}
+.all:active {
+  transform: scale(0.98);
+  box-shadow: 2px 2px 5px grey;
+}
+.act:active {
+  transform: scale(0.98);
+  box-shadow: 2px 2px 5px grey;
+}
+.exp:active {
+  transform: scale(0.98);
+  box-shadow: 2px 2px 5px #2abbac;
+}
 .row {
   margin-left: 20px;
 }

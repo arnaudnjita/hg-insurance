@@ -22,7 +22,6 @@
 .sidebar {
   display: grid;
   width: 100%;
-  background-color: #ff7e1b;
   border-radius: 5px;
   padding: 50px 0;
 }

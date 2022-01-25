@@ -30,19 +30,23 @@
             v-model.number="currentPage"
           />
 
-          <button
+          <va-button
+            :rounded="false"
+            gradient
             class="add-btn"
             @click="createInsuranceModal = !createInsuranceModal"
           >
             Create Insurance
-          </button>
+          </va-button>
 
-          <button
+          <va-button
+            :rounded="false"
+            gradient
             class="add-btn"
             @click="createInsuranceTypeModal = !createInsuranceTypeModal"
           >
             Create Insurance Type
-          </button>
+          </va-button>
         </div>
 
         <va-modal
@@ -174,6 +178,7 @@
               :rounded="false"
               type="submit"
               class="add-btn m"
+              :disabled='create_IT_btn_isDisabled'
               >Create</va-button
             >
             <va-button
@@ -194,7 +199,13 @@
           min-width="800px"
           size="large"
         >
-          <va-form>
+          <va-form
+            style="text-align: center"
+            tag="form"
+            @submit.prevent="handleSubmit">
+
+            <h1 style="margin: 20px 0">Edit Insurance</h1>
+
             <va-input
               class="mt-2"
               label="User insured"
@@ -272,13 +283,15 @@
               type="textarea"
             />
 
-            <button
-              class="p-btns"
+            <va-button
+              :rounded="false"
+              gradient
+              class="a-btns"
               @click="updateInsurance(rowId)"
               type="submit"
             >
               Save
-            </button>
+            </va-button>
 
             <va-button
               v-show="false"
@@ -373,6 +386,7 @@ export default defineComponent({
       createInsuranceModal: false,
       createInsuranceTypeModal: false,
       editInsuranceModal: false,
+      create_IT_btn_isDisabled: true,
 
       createInsuranceTypeToast: {
         message: "Insurance type created successfully",
@@ -694,7 +708,7 @@ export default defineComponent({
 .add-btn {
   font-size: medium;
   color: white;
-  padding: 10px;
+  padding: 12px;
   margin: 10px 10px 10px 20px;
   border: none;
   border-radius: 5px;
@@ -702,10 +716,10 @@ export default defineComponent({
   background-color: #4285f4;
 }
 .add-btn:hover {
-  box-shadow: 1px 2px 12px grey;
+  box-shadow: 2px 2px 5px grey;
 }
 .add-btn:active {
   transform: scale(0.98);
-  box-shadow: 1px 2px 8px grey;
+  box-shadow: 2px 2px 5px grey;
 }
 </style>

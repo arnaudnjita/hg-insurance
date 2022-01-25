@@ -151,9 +151,9 @@ export default {
                         params: { resource: 'customer' }
                     })
                 }
-                else {
-                    this.$router.push({name: 'NetworkError'})
-                }
+                // else {
+                //     this.$router.push({name: 'NetworkError'})
+                // }
             })            
 
             await axios.get("active-activations", {
@@ -174,9 +174,9 @@ export default {
                         params: { resource: 'customer' }
                     })
                 }
-                else {
-                    this.$router.push({name: 'NetworkError'})
-                }
+            //     else {
+            //         this.$router.push({name: 'NetworkError'})
+            //     }
             })
 
             await axios.get("expired-activations", {
@@ -197,9 +197,9 @@ export default {
                         params: { resource: 'customer' }
                     })
                 }
-                else {
-                    this.$router.push({name: 'NetworkError'})
-                }
+                // else {
+                //     this.$router.push({name: 'NetworkError'})
+                // }
             })
             NProgress.done()
         }

@@ -41,6 +41,7 @@
 
           <va-button
             :rounded="false"
+            :color='"#2abbac"'
             gradient
             class="add-btn"
             @click="createInsuranceTypeModal = !createInsuranceTypeModal"
@@ -178,7 +179,6 @@
               :rounded="false"
               type="submit"
               class="add-btn m"
-              :disabled='create_IT_btn_isDisabled'
               >Create</va-button
             >
             <va-button
@@ -386,8 +386,7 @@ export default defineComponent({
       createInsuranceModal: false,
       createInsuranceTypeModal: false,
       editInsuranceModal: false,
-      create_IT_btn_isDisabled: true,
-
+      
       createInsuranceTypeToast: {
         message: "Insurance type created successfully",
         color: "primary",

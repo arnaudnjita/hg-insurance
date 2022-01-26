@@ -409,7 +409,7 @@ export default defineComponent({
       return source?.toString?.() === this.filter;
     },
 
-    // functions to make fields editable
+    // Make fields editable
     changeTel() {
       if (this.readTel == true) {
         this.readTel = false;
@@ -426,15 +426,22 @@ export default defineComponent({
       } else this.readAddress = true;
     },
 
-    // function to get all customers
+    // Get all customers
     async loadCustomers() {
-      let result = await axios.get("customers", {
+      await axios.get("customers", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-      });
-      // console.log(result.data);
-      this.customers = result.data.results;
+      })
+      .then((response) => {
+    // Sorts customers indescending order and assigns
+        let all_customers = response.data.results
+        all_customers.sort((a,b) => {
+          return b.id - a.id
+          })
+        console.log(all_customers);
+        this.customers = all_customers;
+      })      
     }
   },
 

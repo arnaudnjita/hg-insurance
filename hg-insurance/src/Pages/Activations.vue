@@ -93,24 +93,24 @@ export default defineComponent({
   },
 
   async mounted() {
+    // Get all active activations
     let active = await axios.get("active-activations", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(active.data);
-    this.active = active.data.results;
+    this.active = active.data.results
 
+    // Get all expired activations
     let expired = await axios.get("expired-activations", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(expired.data);
-    this.expired = expired.data.results;
+    this.expired = expired.data.results
 
-    this.all_activations = this.expired.concat(this.active);
-    console.log(this.all_activations);
+    // Get all activations by concatenating expired and active
+    this.all_activations = this.expired.concat(this.active)
   },
 
   computed: {

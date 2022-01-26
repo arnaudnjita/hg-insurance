@@ -455,6 +455,7 @@ export default defineComponent({
   },
 
   methods: {
+    // Get all insurances
     async getAllInsurances() {
       await axios
         .get("insurances-all/", {
@@ -464,11 +465,17 @@ export default defineComponent({
         })
         .then((response) => {
           console.log(response.data)
-          this.all_insurances = response.data.results;
+          let all_insurances = response.data.results
+          all_insurances.sort((a,b) => {
+          return b.id - a.id
+          })
+          // console.log(all_insurances)
+          this.all_insurances = all_insurances;
         })
         .catch();
     },
 
+    // Eddit insurance details
     async editInsurance(id) {
       this.editInsuranceModal = !this.editInsuranceModal;
       // console.log(items);
@@ -494,7 +501,7 @@ export default defineComponent({
         });
     },
 
-    // Function to save the insurance fields updated
+    // Save the insurance fields updated
     async updateInsurance(id) {
       await axios
         .patch(
@@ -531,6 +538,7 @@ export default defineComponent({
         });
     },
 
+    // Create an insurance type
     async createInsuranceType() {
       await axios
         .post(
@@ -566,10 +574,11 @@ export default defineComponent({
         });
     },
 
+    // Create an insurance for a customer
     async createInsurance() {
       await axios
         .post(
-          "insurances/",
+          "insurances-all/",
           {
             user_insured: this.user_insured,
             risk_secure: this.risk_secure,
@@ -589,9 +598,9 @@ export default defineComponent({
           if (response.status == 201) {
             var elem = document.getElementById("createInsuranceToast");
             elem.click();
+            this.getAllInsurances();
             this.createInsuranceModal = !this.createInsuranceModal;
           }
-          this.getAllInsurances();
         })
         .catch((error) => {
           if (error.response) {

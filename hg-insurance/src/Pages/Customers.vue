@@ -7,9 +7,9 @@
       <AppNav></AppNav>
       <div class="box3">
       <h1 class="h1">All Customers</h1>
-      <div class="row">
-        <va-input
-          class="flex mb-2 md4 va-input"
+      <div class="row" >
+          <va-input
+          class="flex mb-2 md2 va-input"
           label="Filter"
           placeholder="Filter..."
           v-model="filter"
@@ -196,13 +196,13 @@
         clickable
         striped
       >
-        <template #bodyAppend>
+        <!-- <template #bodyAppend>
           <tr>
             <td colspan="8" class="table-example--pagination">
-              <va-pagination v-model="currentPage" input :pages="pages" />
+              <va-pagination style="margin-left: 20px;" v-model="currentPage" input :pages="pages" :rounded="false" />
             </td>
           </tr>
-        </template>
+        </template> -->
 
         <!-- <template #cell(Edit)>
           <va-chip>Edit</va-chip>
@@ -227,6 +227,7 @@
         </template>
       </va-data-table>
       </div>
+      <va-pagination style="margin-left: 20px;" v-model="currentPage" input :pages="pages" :rounded="false" />
       </div>
     </div>
   </div>
@@ -459,7 +460,7 @@ export default defineComponent({
 .box3 {
   background-color: white;
   margin: 0px 15px 0px 15px;
-  height: 71vh;
+  height: 73vh;
   border-radius: 5px;
   box-shadow: 2px 2px 12px #8e8e8e;
   padding: 30px 10px;
@@ -468,13 +469,15 @@ export default defineComponent({
 }
 .box4 {
   overflow-y: auto; 
-  height:47vh; 
+  height:41vh; 
   margin-bottom:10px;
   margin-left: 20px;
   margin-right: 20px;
 }
 .row {
   margin-left: 20px;
+  display: flex;
+  flex-direction: row;
 }
 
 .h1 {
@@ -489,7 +492,7 @@ export default defineComponent({
   font-size: medium;
   color: white;
   padding: 12px 12px;
-  margin: 10px 10px 10px 20px;
+  margin: 10px 20px 10px auto;
   border: none;
   border-radius: 5px;
   color: white;

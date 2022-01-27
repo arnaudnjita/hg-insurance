@@ -50,15 +50,16 @@
         :current-page="currentPage"
         striped
       >
-        <template #bodyAppend>
+        <!-- <template #bodyAppend>
           <tr>
             <td colspan="8" class="table-example--pagination">
               <va-pagination v-model="currentPage" input :pages="pages" />
             </td>
           </tr>
-        </template>
+        </template> -->
       </va-data-table>
       </div>
+      <va-pagination style="margin-left: 20px;" v-model="currentPage" input :pages="pages" :rounded="false" />
       </div>
     </div>
   </div>
@@ -154,7 +155,7 @@ export default defineComponent({
 .box3 {
   background-color: white;
   margin: 0px 15px 0px 15px;
-  height: 71vh;
+  height: 73vh;
   border-radius: 5px;
   box-shadow: 2px 2px 12px #8e8e8e;
   padding: 30px 10px;
@@ -163,7 +164,7 @@ export default defineComponent({
 }
 .box4 {
   overflow-y: auto; 
-  height:47vh; 
+  height:41vh; 
   margin-bottom:10px;
   margin-left:20px;
   margin-right: 20px;

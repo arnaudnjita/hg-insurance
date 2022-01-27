@@ -347,6 +347,9 @@ export default {
 </script>
 
 <style scoped>
+.inputs{
+  margin: 0 10px;
+}
 .top-box {
   display: flex;
   text-align: center;
@@ -398,7 +401,7 @@ export default {
   width: 200px;
 }
 .p-btns:hover {
-  box-shadow: 1px 2px 12px grey;
+  box-shadow: 1px 2px 1px grey;
 }
 .p-btns:active {
   transform: scale(0.98);

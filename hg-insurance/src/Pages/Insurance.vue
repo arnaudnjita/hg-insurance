@@ -9,13 +9,13 @@
         <h1 class="h1">All Insurances</h1>
         <div class="row">
           <va-input
-            class="flex mb-2 md3 va-input"
+            class="flex mb-2 md2 va-input"
             placeholder="Filter..."
             v-model="filter"
           />
 
           <va-input
-            class="flex mb-2 md1 va-input"
+            class="flex mb-2 md2 va-input"
             type="number"
             placeholder="Items..."
             label="Items per page"
@@ -23,7 +23,7 @@
           />
 
           <va-input
-            class="flex mb-2 md1 va-input"
+            class="flex mb-2 md2 va-input"
             type="number"
             placeholder="Page..."
             label="Current page"
@@ -33,8 +33,9 @@
           <va-button
             :rounded="false"
             gradient
-            class="add-btn"
+            class="add-btn ps"
             @click="createInsuranceModal = !createInsuranceModal"
+            style="margin: 10px 20px 10px auto;"
           >
             Create Insurance
           </va-button>
@@ -320,15 +321,14 @@
           clickable
           striped
           animated
-          
         >
-          <template #bodyAppend>
+          <!-- <template #bodyAppend>
             <tr colspan="6">
               <td colspan="6" class="table-example--pagination">
                 <va-pagination v-model="currentPage" input :pages="pages" />
               </td>
             </tr>
-          </template>
+          </template> -->
 
           <template #cell(user_insured)="{ source: user_insured }">
             <p :key="tableRenderKey">{{ user_insured }}</p>
@@ -353,6 +353,7 @@
           </template>
         </va-data-table>
         </div>
+        <va-pagination style="margin-left: 20px;" v-model="currentPage" input :pages="pages" :rounded="false" />
       </div>
     </div>
   </div>
@@ -690,7 +691,7 @@ export default defineComponent({
 .box3 {
   background-color: white;
   margin: 0px 15px 0px 15px;
-  height: 71vh;
+  height: 73vh;
   border-radius: 5px;
   box-shadow: 2px 2px 12px #8e8e8e;
   padding: 30px 10px;
@@ -699,7 +700,7 @@ export default defineComponent({
 }
 .box4 {
   overflow-y: auto; 
-  height:47vh; 
+  height:41vh; 
   margin-bottom:10px;
   margin-left:20px;
   margin-right: 20px;
@@ -716,8 +717,8 @@ export default defineComponent({
 .add-btn {
   font-size: medium;
   color: white;
-  padding: 12px;
-  margin: 10px 10px 10px 20px;
+  padding: 12px 0;
+  margin: 10px 20px 10px 20px;
   border: none;
   border-radius: 5px;
   color: white;

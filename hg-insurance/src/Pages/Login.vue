@@ -8,7 +8,7 @@
       class="form-div"
       @submit.prevent="login"
     >
-      <h2>Login</h2>
+      <h2 class="display-3">Login</h2>
       <va-input 
         class="input"
         v-model="email" 
